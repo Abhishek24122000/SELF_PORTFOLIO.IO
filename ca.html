@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Certificates | Abhishek Palsodkar</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css?v=2026-08-12"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/aos@2.3.1/dist/aos.css"
+  >
+
+  <!-- PDF.js -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js">
+  </script>
+
+
+  <style>
+
+    /* =========================================================
+       CERTIFICATES PAGE
+       ========================================================= */
+
+    .certificates-page {
+
+      width:
+        min(100% - 10%, var(--max-width));
+
+      margin:
+        0 auto;
+
+      padding:
+        5rem 2rem 6rem;
+    }
+
+
+    /* =========================================================
+       PAGE HEADER
+       ========================================================= */
+
+    .certificates-header {
+
+      text-align:
+        center;
+
+      margin-bottom:
+        4rem;
+    }
+
+
+    .certificates-kicker {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        0.55rem;
+
+      margin-bottom:
+        0.8rem;
+
+      font-size:
+        0.68rem;
+
+      font-weight:
+        600;
+
+      letter-spacing:
+        0.18em;
+
+      color:
+        var(--accent);
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .certificates-kicker::before {
+
+      content:
+        "";
+
+      width:
+        22px;
+
+      height:
+        1px;
+
+      background:
+        var(--accent);
+    }
+
+
+    .certificates-header h1 {
+
+      margin:
+        0;
+
+      font-size:
+        clamp(2.4rem, 5vw, 4.5rem);
+
+      line-height:
+        1;
+
+      letter-spacing:
+        -0.055em;
+
+      color:
+        var(--white);
+    }
+
+
+    .certificates-header p {
+
+      max-width:
+        650px;
+
+      margin:
+        1.2rem auto 0;
+
+      font-size:
+        0.9rem;
+
+      line-height:
+        1.8;
+
+      color:
+        var(--text-muted);
+    }
+
+
+    /* =========================================================
+       CATEGORY
+       ========================================================= */
+
+    .certificate-category {
+
+      margin-bottom:
+        4.5rem;
+    }
+
+
+    .certificate-category-title {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        1rem;
+
+      margin-bottom:
+        1.5rem;
+
+      font-size:
+        1rem;
+
+      font-weight:
+        600;
+
+      color:
+        var(--white);
+    }
+
+
+    .certificate-category-title::after {
+
+      content:
+        "";
+
+      flex:
+        1;
+
+      height:
+        1px;
+
+      background:
+        var(--border);
+    }
+
+
+    /* =========================================================
+       CERTIFICATE GRID
+       ========================================================= */
+
+    .certificates-container {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(260px, 1fr));
+
+      gap:
+        1.5rem;
+    }
+
+
+    /* =========================================================
+       CERTIFICATE CARD
+       ========================================================= */
+
+    .certificate {
+
+      position:
+        relative;
+
+      display:
+        block;
+
+      overflow:
+        hidden;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        var(--radius-medium);
+
+      background:
+        rgba(211, 212, 192, 0.22);
+
+      box-shadow:
+        var(--shadow-small);
+
+      cursor:
+        pointer;
+
+      transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease,
+        background 0.35s ease;
+    }
+
+
+    .certificate:hover {
+
+      transform:
+        translateY(-7px);
+
+      border-color:
+        rgba(139, 94, 60, 0.32);
+
+      background:
+        rgba(211, 212, 192, 0.38);
+
+      box-shadow:
+        var(--shadow-medium);
+    }
+
+
+    /* =========================================================
+       PDF THUMBNAIL AREA
+       ========================================================= */
+
+    .certificate-image-wrapper {
+
+      position:
+        relative;
+
+      height:
+        210px;
+
+      padding:
+        0.8rem;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      overflow:
+        hidden;
+
+      background:
+        rgba(255, 255, 255, 0.72);
+    }
+
+
+    .certificate-thumbnail {
+
+      display:
+        block;
+
+      width:
+        100%;
+
+      height:
+        100%;
+
+      object-fit:
+        contain;
+
+      border:
+        1px solid rgba(10, 41, 71, 0.08);
+
+      border-radius:
+        8px;
+
+      background:
+        #ffffff;
+
+      box-shadow:
+        0 5px 18px rgba(10, 41, 71, 0.06);
+
+      transition:
+        transform 0.45s ease;
+    }
+
+
+    .certificate:hover
+    .certificate-thumbnail {
+
+      transform:
+        scale(1.025);
+    }
+
+
+    /* =========================================================
+       LOADING STATE
+       ========================================================= */
+
+    .thumbnail-loading {
+
+      position:
+        absolute;
+
+      inset:
+        0;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      z-index:
+        2;
+
+      background:
+        rgba(255, 255, 255, 0.92);
+
+      color:
+        var(--text-muted);
+
+      font-size:
+        0.7rem;
+
+      letter-spacing:
+        0.08em;
+
+      text-transform:
+        uppercase;
+
+      transition:
+        opacity 0.3s ease;
+    }
+
+
+    .thumbnail-loading.hidden {
+
+      opacity:
+        0;
+
+      pointer-events:
+        none;
+    }
+
+
+    /* =========================================================
+       OPEN LABEL
+       ========================================================= */
+
+    .certificate-open {
+
+      position:
+        absolute;
+
+      right:
+        1rem;
+
+      bottom:
+        1rem;
+
+      z-index:
+        3;
+
+      padding:
+        0.45rem 0.7rem;
+
+      border:
+        1px solid rgba(139, 94, 60, 0.20);
+
+      border-radius:
+        6px;
+
+      background:
+        rgba(255, 255, 255, 0.94);
+
+      color:
+        var(--accent);
+
+      font-size:
+        0.62rem;
+
+      font-weight:
+        600;
+
+      letter-spacing:
+        0.08em;
+
+      text-transform:
+        uppercase;
+
+      opacity:
+        0;
+
+      transform:
+        translateY(5px);
+
+      transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+    }
+
+
+    .certificate:hover
+    .certificate-open {
+
+      opacity:
+        1;
+
+      transform:
+        translateY(0);
+    }
+
+
+    /* =========================================================
+       CERTIFICATE INFORMATION
+       ========================================================= */
+
+    .certificate-info {
+
+      padding:
+        1.1rem 1.2rem 1.25rem;
+    }
+
+
+    .certificate-info h3 {
+
+      margin:
+        0 0 0.35rem;
+
+      font-size:
+        1rem;
+
+      font-weight:
+        600;
+
+      line-height:
+        1.4;
+
+      color:
+        var(--white);
+    }
+
+
+    .certificate-info p {
+
+      margin:
+        0;
+
+      font-size:
+        0.72rem;
+
+      color:
+        var(--text-muted);
+    }
+
+
+    /* =========================================================
+       MODAL
+       ========================================================= */
+
+    .certificate-modal {
+
+      position:
+        fixed;
+
+      inset:
+        0;
+
+      z-index:
+        9999;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      padding:
+        2rem;
+
+      background:
+        rgba(10, 41, 71, 0.86);
+
+      backdrop-filter:
+        blur(14px);
+
+      -webkit-backdrop-filter:
+        blur(14px);
+
+      opacity:
+        0;
+
+      visibility:
+        hidden;
+
+      pointer-events:
+        none;
+
+      transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+    }
+
+
+    .certificate-modal.active {
+
+      opacity:
+        1;
+
+      visibility:
+        visible;
+
+      pointer-events:
+        auto;
+    }
+
+
+    /* =========================================================
+       MODAL CONTENT
+       ========================================================= */
+
+    .certificate-modal-content {
+
+      position:
+        relative;
+
+      width:
+        min(1200px, 94vw);
+
+      height:
+        min(92vh, 900px);
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      padding:
+        1rem;
+
+      border:
+        1px solid rgba(255, 255, 255, 0.20);
+
+      border-radius:
+        16px;
+
+      background:
+        rgba(255, 255, 255, 0.97);
+
+      box-shadow:
+        0 30px 100px rgba(0, 0, 0, 0.35);
+
+      transform:
+        scale(0.94);
+
+      transition:
+        transform 0.35s ease;
+    }
+
+
+    .certificate-modal.active
+    .certificate-modal-content {
+
+      transform:
+        scale(1);
+    }
+
+
+    /* =========================================================
+       PDF VIEWER
+       ========================================================= */
+
+    .certificate-pdf-viewer {
+
+      width:
+        100%;
+
+      flex:
+        1;
+
+      min-height:
+        0;
+
+      border:
+        none;
+
+      border-radius:
+        8px;
+
+      background:
+        #f5f5f5;
+    }
+
+
+    /* =========================================================
+       CLOSE BUTTON
+       ========================================================= */
+
+    .certificate-modal-close {
+
+      position:
+        absolute;
+
+      top:
+        -14px;
+
+      right:
+        -14px;
+
+      z-index:
+        10;
+
+      width:
+        42px;
+
+      height:
+        42px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      border:
+        1px solid rgba(10, 41, 71, 0.15);
+
+      border-radius:
+        50%;
+
+      background:
+        #ffffff;
+
+      color:
+        var(--navy);
+
+      font-size:
+        1.35rem;
+
+      line-height:
+        1;
+
+      cursor:
+        pointer;
+
+      box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.18);
+
+      transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease;
+    }
+
+
+    .certificate-modal-close:hover {
+
+      transform:
+        rotate(90deg);
+
+      background:
+        var(--accent);
+
+      color:
+        #ffffff;
+    }
+
+
+    /* =========================================================
+       MODAL TITLE
+       ========================================================= */
+
+    .certificate-modal-title {
+
+      width:
+        100%;
+
+      padding:
+        0.65rem 0.5rem 0.2rem;
+
+      text-align:
+        center;
+
+      font-size:
+        0.82rem;
+
+      font-weight:
+        600;
+
+      color:
+        var(--navy);
+    }
+
+
+    /* =========================================================
+       BODY LOCK
+       ========================================================= */
+
+    body.modal-open {
+
+      overflow:
+        hidden;
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 700px) {
+
+      .certificates-page {
+
+        width:
+          min(100% - 8%, var(--max-width));
+
+        padding:
+          4rem 1rem 5rem;
+      }
+
+
+      .certificates-container {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .certificate {
+
+        max-width:
+          420px;
+
+        width:
+          100%;
+
+        margin:
+          0 auto;
+      }
+
+
+      .certificate-image-wrapper {
+
+        height:
+          230px;
+      }
+
+
+      .certificate-modal {
+
+        padding:
+          0.75rem;
+      }
+
+
+      .certificate-modal-content {
+
+        width:
+          96vw;
+
+        height:
+          94vh;
+
+        padding:
+          0.6rem;
+      }
+
+
+      .certificate-modal-close {
+
+        top:
+          -9px;
+
+        right:
+          -5px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =======================================================
+       CERTIFICATES PAGE
+       ======================================================= -->
+
+  <main class="certificates-page">
+
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+
+    <header
+      class="certificates-header"
+      data-aos="fade-down"
+    >
+
+      <div class="certificates-kicker">
+        Hall of Fame
+      </div>
+
+
+      <h1>
+        📜 Certificates
+      </h1>
+
+
+      <p>
+        A collection of professional certifications and
+        specialised credentials earned across cloud,
+        data analytics, machine learning and artificial
+        intelligence.
+      </p>
+
+    </header>
+
+
+    <!-- =====================================================
+         CLOUD & INFRASTRUCTURE
+         ===================================================== -->
+
+    <section
+      class="certificate-category"
+      data-aos="fade-up"
+    >
+
+      <h2 class="certificate-category-title">
+        Cloud & Infrastructure
+      </h2>
+
+
+      <div class="certificates-container">
+
+
+        <!-- =================================================
+             AWS CLOUD PRACTITIONER
+             ================================================= -->
+
+        <a
+          href="#"
+          class="certificate"
+          data-pdf="assets/certificates/AWS Certified Cloud Practitioner certificate.pdf"
+          data-title="AWS Certified Cloud Practitioner"
+          title="Open AWS Certified Cloud Practitioner Certificate"
+        >
+
+          <div class="certificate-image-wrapper">
+
+            <div class="thumbnail-loading">
+              Loading...
+            </div>
+
+
+            <canvas
+              class="certificate-thumbnail"
+              data-pdf="assets/certificates/AWS Certified Cloud Practitioner certificate.pdf"
+            ></canvas>
+
+
+            <span class="certificate-open">
+              View Certificate
+            </span>
+
+          </div>
+
+
+          <div class="certificate-info">
+
+            <h3>
+              AWS Certified Cloud Practitioner
+            </h3>
+
+            <p>
+              Amazon Web Services
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- =================================================
+             AWS SOLUTIONS ARCHITECT
+             ================================================= -->
+
+        <a
+          href="#"
+          class="certificate"
+          data-pdf="assets/certificates/AWS Certified Solutions Architect  Associate certificate.pdf"
+          data-title="AWS Certified Solutions Architect – Associate"
+          title="Open AWS Solutions Architect Certificate"
+        >
+
+          <div class="certificate-image-wrapper">
+
+            <div class="thumbnail-loading">
+              Loading...
+            </div>
+
+
+            <canvas
+              class="certificate-thumbnail"
+              data-pdf="assets/certificates/AWS Certified Solutions Architect  Associate certificate.pdf"
+            ></canvas>
+
+
+            <span class="certificate-open">
+              View Certificate
+            </span>
+
+          </div>
+
+
+          <div class="certificate-info">
+
+            <h3>
+              AWS Certified Solutions Architect – Associate
+            </h3>
+
+            <p>
+              Amazon Web Services
+            </p>
+
+          </div>
+
+        </a>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DATA SCIENCE & MACHINE LEARNING
+         ===================================================== -->
+
+    <section
+      class="certificate-category"
+      data-aos="fade-up"
+    >
+
+      <h2 class="certificate-category-title">
+        Data Science & Machine Learning
+      </h2>
+
+
+      <div class="certificates-container">
+
+
+        <!-- =================================================
+             ADVANCED LEARNING ALGORITHMS
+             ================================================= -->
+
+        <a
+          href="#"
+          class="certificate"
+          data-pdf="assets/certificates/Coursera Adv Learn algo Andrev Ng.pdf"
+          data-title="Coursera — Advanced Learning Algorithms — Andrew Ng"
+          title="Open Advanced Learning Algorithms Certificate"
+        >
+
+          <div class="certificate-image-wrapper">
+
+            <div class="thumbnail-loading">
+              Loading...
+            </div>
+
+
+            <canvas
+              class="certificate-thumbnail"
+              data-pdf="assets/certificates/Coursera Adv Learn algo Andrev Ng.pdf"
+            ></canvas>
+
+
+            <span class="certificate-open">
+              View Certificate
+            </span>
+
+          </div>
+
+
+          <div class="certificate-info">
+
+            <h3>
+              Advanced Learning Algorithms
+            </h3>
+
+            <p>
+              Coursera · Andrew Ng
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- =================================================
+             MACHINE LEARNING
+             ================================================= -->
+
+        <a
+          href="#"
+          class="certificate"
+          data-pdf="assets/certificates/Coursera ML Andrev Ng.pdf"
+          data-title="Coursera — Machine Learning — Andrew Ng"
+          title="Open Machine Learning Certificate"
+        >
+
+          <div class="certificate-image-wrapper">
+
+            <div class="thumbnail-loading">
+              Loading...
+            </div>
+
+
+            <canvas
+              class="certificate-thumbnail"
+              data-pdf="assets/certificates/Coursera ML Andrev Ng.pdf"
+            ></canvas>
+
+
+            <span class="certificate-open">
+              View Certificate
+            </span>
+
+          </div>
+
+
+          <div class="certificate-info">
+
+            <h3>
+              Machine Learning
+            </h3>
+
+            <p>
+              Coursera · Andrew Ng
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- =================================================
+             MACHINE LEARNING SPECIALIZATION
+             ================================================= -->
+
+        <a
+          href="#"
+          class="certificate"
+          data-pdf="assets/certificates/Coursera ML specialization Andrew Ng.pdf"
+          data-title="Coursera — Machine Learning Specialization — Andrew Ng"
+          title="Open Machine Learning Specialization Certificate"
+        >
+
+          <div class="certificate-image-wrapper">
+
+            <div class="thumbnail-loading">
+              Loading...
+            </div>
+
+
+            <canvas
+              class="certificate-thumbnail"
+              data-pdf="assets/certificates/Coursera ML specialization Andrew Ng.pdf"
+            ></canvas>
+
+
+            <span class="certificate-open">
+              View Certificate
+            </span>
+
+          </div>
+
+
+          <div class="certificate-info">
+
+            <h3>
+              Machine Learning Specialization
+            </h3>
+
+            <p>
+              Coursera · Andrew Ng
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- =================================================
+             UNSUPERVISED LEARNING
+             ================================================= -->
+
+        <a
+          href="#"
+          class="certificate"
+          data-pdf="assets/certificates/Coursera ML Unsup Andrew Ng.pdf"
+          data-title="Coursera — Unsupervised Learning — Andrew Ng"
+          title="Open Unsupervised Learning Certificate"
+        >
+
+          <div class="certificate-image-wrapper">
+
+            <div class="thumbnail-loading">
+              Loading...
+            </div>
+
+
+            <canvas
+              class="certificate-thumbnail"
+              data-pdf="assets/certificates/Coursera ML Unsup Andrew Ng.pdf"
+            ></canvas>
+
+
+            <span class="certificate-open">
+              View Certificate
+            </span>
+
+          </div>
+
+
+          <div class="certificate-info">
+
+            <h3>
+              Unsupervised Learning
+            </h3>
+
+            <p>
+              Coursera · Andrew Ng
+            </p>
+
+          </div>
+
+        </a>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DATA ANALYTICS & BUSINESS INTELLIGENCE
+         ===================================================== -->
+
+    <section
+      class="certificate-category"
+      data-aos="fade-up"
+    >
+
+      <h2 class="certificate-category-title">
+        Data Analytics & Business Intelligence
+      </h2>
+
+
+      <div class="certificates-container">
+
+
+        <!-- =================================================
+             GOOGLE ADVANCED DATA ANALYTICS
+             ================================================= -->
+
+        <a
+          href="#"
+          class="certificate"
+          data-pdf="assets/certificates/Google adv Analytics.pdf"
+          data-title="Google Advanced Data Analytics Professional Certificate"
+          title="Open Google Advanced Data Analytics Certificate"
+        >
+
+          <div class="certificate-image-wrapper">
+
+            <div class="thumbnail-loading">
+              Loading...
+            </div>
+
+
+            <canvas
+              class="certificate-thumbnail"
+              data-pdf="assets/certificates/Google adv Analytics.pdf"
+            ></canvas>
+
+
+            <span class="certificate-open">
+              View Certificate
+            </span>
+
+          </div>
+
+
+          <div class="certificate-info">
+
+            <h3>
+              Google Advanced Data Analytics
+            </h3>
+
+            <p>
+              Google · Coursera
+            </p>
+
+          </div>
+
+        </a>
+
+
+        <!-- =================================================
+             MICROSOFT PL-300
+             ================================================= -->
+
+        <a
+          href="#"
+          class="certificate"
+          data-pdf="assets/certificates/Microsoft PL-300.pdf"
+          data-title="Microsoft Power BI Data Analyst — PL-300"
+          title="Open Microsoft PL-300 Certificate"
+        >
+
+          <div class="certificate-image-wrapper">
+
+            <div class="thumbnail-loading">
+              Loading...
+            </div>
+
+
+            <canvas
+              class="certificate-thumbnail"
+              data-pdf="assets/certificates/Microsoft PL-300.pdf"
+            ></canvas>
+
+
+            <span class="certificate-open">
+              View Certificate
+            </span>
+
+          </div>
+
+
+          <div class="certificate-info">
+
+            <h3>
+              Microsoft PL-300
+            </h3>
+
+            <p>
+              Power BI Data Analyst
+            </p>
+
+          </div>
+
+        </a>
+
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =======================================================
+       CERTIFICATE MODAL
+       ======================================================= -->
+
+  <div
+    class="certificate-modal"
+    id="certificateModal"
+    aria-hidden="true"
+  >
+
+    <div class="certificate-modal-content">
+
+
+      <!-- CLOSE BUTTON -->
+
+      <button
+        class="certificate-modal-close"
+        id="certificateModalClose"
+        aria-label="Close certificate"
+        type="button"
+      >
+        ×
+      </button>
+
+
+      <!-- PDF VIEWER -->
+
+      <iframe
+        id="certificatePdfViewer"
+        class="certificate-pdf-viewer"
+        title="Certificate PDF Viewer"
+      ></iframe>
+
+
+      <!-- TITLE -->
+
+      <div
+        class="certificate-modal-title"
+        id="modalCertificateTitle"
+      ></div>
+
+
+    </div>
+
+  </div>
+
+
+  <!-- =======================================================
+       FOOTER
+       ======================================================= -->
+
+  <footer
+    class="footer"
+    data-aos="fade-in"
+  >
+
+    &copy; 2025 Abhishek Palsodkar
+
+  </footer>
+
+
+  <!-- =======================================================
+       AOS
+       ======================================================= -->
+
+  <script
+    src="https://unpkg.com/aos@2.3.1/dist/aos.js"
+  ></script>
+
+
+  <script>
+
+    /* =======================================================
+       AOS
+       ======================================================= */
+
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+
+
+    /* =======================================================
+       PDF.JS WORKER
+       ======================================================= */
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+
+    /* =======================================================
+       GENERATE PDF THUMBNAILS
+       ======================================================= */
+
+    async function generateThumbnail(canvas) {
+
+      const pdfPath =
+        canvas.getAttribute("data-pdf");
+
+      const loadingElement =
+        canvas.parentElement.querySelector(
+          ".thumbnail-loading"
+        );
+
+
+      try {
+
+        const pdf =
+          await pdfjsLib.getDocument(
+            pdfPath
+          ).promise;
+
+
+        const page =
+          await pdf.getPage(1);
+
+
+        const baseViewport =
+          page.getViewport({
+            scale: 1
+          });
+
+
+        const containerWidth =
+          canvas.parentElement.clientWidth -
+          26;
+
+
+        const containerHeight =
+          canvas.parentElement.clientHeight -
+          26;
+
+
+        const scaleX =
+          containerWidth /
+          baseViewport.width;
+
+
+        const scaleY =
+          containerHeight /
+          baseViewport.height;
+
+
+        const scale =
+          Math.min(
+            scaleX,
+            scaleY
+          );
+
+
+        const viewport =
+          page.getViewport({
+            scale: scale
+          });
+
+
+        const devicePixelRatio =
+          window.devicePixelRatio ||
+          1;
+
+
+        canvas.width =
+          viewport.width *
+          devicePixelRatio;
+
+
+        canvas.height =
+          viewport.height *
+          devicePixelRatio;
+
+
+        canvas.style.width =
+          viewport.width + "px";
+
+
+        canvas.style.height =
+          viewport.height + "px";
+
+
+        const context =
+          canvas.getContext("2d");
+
+
+        context.setTransform(
+          devicePixelRatio,
+          0,
+          0,
+          devicePixelRatio,
+          0,
+          0
+        );
+
+
+        await page.render({
+          canvasContext: context,
+          viewport: viewport
+        }).promise;
+
+
+        if (loadingElement) {
+
+          loadingElement.classList.add(
+            "hidden"
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Could not generate PDF thumbnail:",
+          pdfPath,
+          error
+        );
+
+
+        if (loadingElement) {
+
+          loadingElement.textContent =
+            "Preview unavailable";
+
+        }
+
+      }
+
+    }
+
+
+    /* =======================================================
+       INITIALISE ALL THUMBNAILS
+       ======================================================= */
+
+    document
+      .querySelectorAll(
+        ".certificate-thumbnail"
+      )
+      .forEach(canvas => {
+
+        generateThumbnail(canvas);
+
+      });
+
+
+    /* =======================================================
+       MODAL ELEMENTS
+       ======================================================= */
+
+    const certificateModal =
+      document.getElementById(
+        "certificateModal"
+      );
+
+
+    const certificatePdfViewer =
+      document.getElementById(
+        "certificatePdfViewer"
+      );
+
+
+    const modalCertificateTitle =
+      document.getElementById(
+        "modalCertificateTitle"
+      );
+
+
+    const certificateModalClose =
+      document.getElementById(
+        "certificateModalClose"
+      );
+
+
+    const certificateCards =
+      document.querySelectorAll(
+        ".certificate"
+      );
+
+
+    /* =======================================================
+       OPEN CERTIFICATE
+       ======================================================= */
+
+    certificateCards.forEach(card => {
+
+      card.addEventListener(
+        "click",
+        function(event) {
+
+          event.preventDefault();
+
+
+          const pdfPath =
+            this.getAttribute(
+              "data-pdf"
+            );
+
+
+          const certificateTitle =
+            this.getAttribute(
+              "data-title"
+            );
+
+
+          certificatePdfViewer.src =
+            pdfPath;
+
+
+          modalCertificateTitle.textContent =
+            certificateTitle;
+
+
+          certificateModal.classList.add(
+            "active"
+          );
+
+
+          certificateModal.setAttribute(
+            "aria-hidden",
+            "false"
+          );
+
+
+          document.body.classList.add(
+            "modal-open"
+          );
+
+        }
+      );
+
+    });
+
+
+    /* =======================================================
+       CLOSE MODAL
+       ======================================================= */
+
+    function closeCertificateModal() {
+
+      certificateModal.classList.remove(
+        "active"
+      );
+
+
+      certificateModal.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+
+      document.body.classList.remove(
+        "modal-open"
+      );
+
+
+      setTimeout(() => {
+
+        certificatePdfViewer.src =
+          "";
+
+        modalCertificateTitle.textContent =
+          "";
+
+      }, 300);
+
+    }
+
+
+    /* =======================================================
+       CLOSE — X BUTTON
+       ======================================================= */
+
+    certificateModalClose.addEventListener(
+      "click",
+      closeCertificateModal
+    );
+
+
+    /* =======================================================
+       CLOSE — BACKDROP
+       ======================================================= */
+
+    certificateModal.addEventListener(
+      "click",
+      function(event) {
+
+        if (
+          event.target ===
+          certificateModal
+        ) {
+
+          closeCertificateModal();
+
+        }
+
+      }
+    );
+
+
+    /* =======================================================
+       CLOSE — ESCAPE
+       ======================================================= */
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key === "Escape" &&
+          certificateModal.classList.contains(
+            "active"
+          )
+        ) {
+
+          closeCertificateModal();
+
+        }
+
+      }
+    );
+
+
+    /* =======================================================
+       REGENERATE THUMBNAILS ON RESIZE
+       ======================================================= */
+
+    let resizeTimer;
+
+
+    window.addEventListener(
+      "resize",
+      function() {
+
+        clearTimeout(
+          resizeTimer
+        );
+
+
+        resizeTimer =
+          setTimeout(
+            () => {
+
+              document
+                .querySelectorAll(
+                  ".certificate-thumbnail"
+                )
+                .forEach(canvas => {
+
+                  generateThumbnail(
+                    canvas
+                  );
+
+                });
+
+            },
+            250
+          );
+
+      }
+    );
+
+  </script>
+
+
+</body>
+
+</html>
