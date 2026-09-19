@@ -5,21 +5,21 @@ const resumes = [
   {
     number: "01",
     title: "English Résumé",
-    description: "Corporate + technical + business impact.",
+    
     type: "english_resume",
     file: "/assets/resumes/Abhishek_Resume_English.pdf",
   },
   {
     number: "02",
     title: "日本語 履歴書",
-    description: "Japanese résumé format.",
+    
     type: "japanese_rirekisho",
     file: "/assets/resumes/Abhishek_Rirekisho_Japanese.pdf",
   },
   {
     number: "03",
     title: "職務経歴書",
-    description: "Japanese career history document.",
+    
     type: "japanese_shokuumu_keirekisho",
     file: "/assets/resumes/Abhishek_Shokuumu_Keirekisho.pdf",
   },
@@ -37,7 +37,7 @@ export default function Resume() {
 
         <h1>Choose a résumé.</h1>
 
-        <p>Three versions for different hiring contexts.</p>
+        
       </div>
 
       <div className="resume-grid">
