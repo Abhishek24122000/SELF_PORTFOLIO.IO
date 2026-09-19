@@ -1,4 +1,5 @@
 import { ArrowUpRight, Github, ExternalLink, Sparkles } from "lucide-react";
+import { trackProjectAction } from "../../analytics";
 
 const githubUrl = (repo) =>
   repo ? `https://github.com/${repo}` : null;
@@ -7,6 +8,24 @@ const demoUrl = (demo) =>
   demo ? `https://${demo}` : null;
 
 export default function ProjectCard({ project }) {
+  const handleDemoClick = () => {
+    trackProjectAction({
+      projectId: project.id,
+      projectName: project.title,
+      category: project.category,
+      action: "live_demo_click",
+    });
+  };
+
+  const handleGithubClick = () => {
+    trackProjectAction({
+      projectId: project.id,
+      projectName: project.title,
+      category: project.category,
+      action: "github_click",
+    });
+  };
+
   return (
     <article
       className={`project-detail ${
@@ -78,6 +97,7 @@ export default function ProjectCard({ project }) {
               href={demoUrl(project.demo)}
               target="_blank"
               rel="noreferrer"
+              onClick={handleDemoClick}
             >
               <ExternalLink size={15} />
               Live demo
@@ -90,6 +110,7 @@ export default function ProjectCard({ project }) {
               href={githubUrl(project.github)}
               target="_blank"
               rel="noreferrer"
+              onClick={handleGithubClick}
             >
               <Github size={15} />
               Source
