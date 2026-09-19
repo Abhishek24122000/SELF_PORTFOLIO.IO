@@ -1,20 +1,14 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import ProjectCard from "./ProjectCard";
-import { categories, getProjectsByCategory } from "../../data/projects";
+import {
+  categories,
+  getProjectsByCategory,
+} from "../../data/projects";
 
-export default function DAProjects() {
-  const projects = getProjectsByCategory("DA");
-
-  return (
-    <ProjectLibrary
-      category="DA"
-      projects={projects}
-    />
-  );
-}
-
-function ProjectLibrary({ category, projects }) {
+export default function BIProjects() {
+  const category = "BI";
+  const projects = getProjectsByCategory(category);
   const info = categories[category];
 
   return (
@@ -25,9 +19,7 @@ function ProjectLibrary({ category, projects }) {
           All projects
         </Link>
 
-        <span className="label">
-          {category} / PROJECT LIBRARY
-        </span>
+        <span className="label">BI / PROJECT LIBRARY</span>
 
         <h1>{info.label}.</h1>
 
